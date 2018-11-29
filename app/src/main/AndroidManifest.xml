@@ -22,6 +22,11 @@
         <activity android:name=".CrearNotaClass"></activity>
         <activity android:name=".EditarNota"></activity>
         <activity android:name=".VerNota"></activity>
+        <activity android:name=".MostrarImg"></activity>
+        <activity android:name=".MostrarVideo"></activity>
+        <receiver android:name=".PlanaficarAlarma">
+
+        </receiver>
     </application>
 
 </manifest>

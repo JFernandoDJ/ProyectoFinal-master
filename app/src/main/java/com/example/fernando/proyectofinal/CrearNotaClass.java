@@ -1,8 +1,11 @@
 package com.example.fernando.proyectofinal;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -111,18 +114,20 @@ public class CrearNotaClass extends AppCompatActivity {
     private int diaO, mesO, anoO, horaO, minutosO;
 
     public void establecerFecha(View view){
-        Calendar c = Calendar.getInstance();
-        dia = Calendar.DAY_OF_MONTH;
-        mes = Calendar.MONDAY;
-        ano = Calendar.YEAR;
+        Date date = new Date();
+        dia = date.getDay();
+        mes = date.getMonth();
+        ano = date.getYear();
+        Toast.makeText(CrearNotaClass.this, dia + " " + mes + " " + ano, Toast.LENGTH_SHORT).show();
+
         DatePickerDialog dpd = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                diaO = i;
+                anoO = i;
                 mesO = i1;
-                anoO = i2;
+                diaO = i2;
             }
-        },dia,mes,ano);
+        },2018,11,29);
         dpd.show();
     }
 
@@ -154,10 +159,11 @@ public class CrearNotaClass extends AppCompatActivity {
         DAOnota dn = new DAOnota(view.getContext());
         dn.add(new Nota(0,"Holas",new ArrayList<String>(),new ArrayList<String>(),new ArrayList<String>(),
                 new Date(), false, "hbak.jb,j Dqbudq.kBHJQBDLQBDAKBJ,BABJHADVEVJH,W"));*/
-        DAOnota dn = new DAOnota(view.getContext());
-        dn.add(new Nota(0,titulo.getText().toString(),new ArrayList<Nodo>(),listaVideos,listaFotos,
+        Toast.makeText(this, (anoO+" "+ mesO+" "+diaO+" "+ hora+" "+minuto) + "", Toast.LENGTH_LONG).show();
+        /*DAOnota dn = new DAOnota(view.getContext());
+        dn.add(new Nota(0,titulo.getText().toString(),listaVideos,listaFotos,new ArrayList<Nodo>(),
                 new Date(), chbRecordatorio.isChecked(), mensaje.getText().toString()));
-        List<Nota> list = dn.getAll();
+        List<Nota> list = dn.getAll();*/
         /*for (int i = 0; i < list.size(); i++){
 
             Log.i("Nota" + i, list.get(i).toString());
@@ -230,6 +236,7 @@ public class CrearNotaClass extends AppCompatActivity {
             b.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.fotos));
             b.setText(n.getNombre());
             b.setMaxWidth(20);
+            b.setOnClickListener(new oyente());
             lista.addView(b);
         }
         for (Nodo n:listaVideos){
@@ -238,7 +245,83 @@ public class CrearNotaClass extends AppCompatActivity {
             d.setBounds(20,20,20,20);
             b.setBackground(d);
             b.setText(n.getNombre());
+            b.setOnClickListener(new OyenteVideo());
             lista.addView(b);
+        }
+    }
+
+    public class oyente implements View.OnClickListener{
+
+        @Override
+        public void onClick(View view) {
+            final View v = view;
+            final CharSequence[] items = {"Ver", "Eliminar"};
+            AlertDialog.Builder builder = new AlertDialog.Builder(CrearNotaClass.this);
+            builder.setTitle("Opciones");
+            builder.setItems(items, new DialogInterface.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+                public void onClick(DialogInterface dialog, int item) {
+                    if(items[item].equals("Ver")){
+                        Intent intent = new Intent(getApplicationContext(), MostrarImg.class);
+                        intent.putExtra("Data", (Environment.getExternalStorageDirectory() + File.separator +
+                                DIRECTORIO_IMAGEN + File.separator+((Button)v).getText()));
+                        startActivity(intent);
+                    }else{
+                        eliminar(((Button)v).getText().toString());
+                        llenarMultimedia();
+                    }
+                }
+            });
+            AlertDialog alert = builder.create();
+            alert.show();
+            /*Intent intent = new Intent(view.getContext(), MostrarImg.class);
+            intent.putExtra("Data", (Environment.getExternalStorageDirectory() + File.separator +
+                    DIRECTORIO_IMAGEN + File.separator+((Button)view).getText()));
+            startActivity(intent);*/
+
+        }
+    }
+
+    public void eliminar(String dir){
+        for(int i= 0; i < listaFotos.size(); i++){
+            if(listaFotos.get(i).getNombre().equals(dir)){
+                listaFotos.remove(i);
+                break;
+            }
+        }
+
+        for(int i= 0; i < listaVideos.size(); i++){
+            if(listaVideos.get(i).getNombre().equals(dir)){
+                listaVideos.remove(i);
+                break;
+            }
+        }
+
+    }
+
+    public class OyenteVideo implements View.OnClickListener{
+        @Override
+        public void onClick(View view) {
+            final View v = view;
+            final CharSequence[] items = {"Ver", "Eliminar"};
+            AlertDialog.Builder builder = new AlertDialog.Builder(CrearNotaClass.this);
+            builder.setTitle("Opciones");
+            builder.setItems(items, new DialogInterface.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+                public void onClick(DialogInterface dialog, int item) {
+                    if(items[item].equals("Ver")){
+                        Intent intent = new Intent(v.getContext(), MostrarVideo.class);
+                        intent.putExtra("Data", (Environment.getExternalStorageDirectory() + File.separator +
+                                DIRECTORIO_IMAGEN + File.separator + ((Button) v).getText()));
+                        startActivity(intent);
+                    }else{
+                        eliminar(((Button)v).getText().toString());
+                        llenarMultimedia();
+                    }
+                }
+            });
+            AlertDialog alert = builder.create();
+            alert.show();
         }
     }
 

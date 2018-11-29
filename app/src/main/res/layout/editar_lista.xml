@@ -1,48 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <EditText
-        android:id="@+id/txtText"
+        android:id="@+id/edtTituloEdit"
         android:layout_width="match_parent"
-        android:layout_height="41dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginRight="0dp"
-        android:gravity="center_vertical|center"
-        android:text="TextView" />
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Titulo..."
+        android:inputType="textPersonName"
+        android:textColorLink="@color/White"
+        android:background="@drawable/text_quitar_linea"
+        android:layout_margin="5dp"/>
 
     <LinearLayout
-        android:id="@+id/ly"
         android:layout_width="match_parent"
         android:layout_height="42dp"
-        android:layout_below="@+id/txtText"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="99dp"
+        android:orientation="horizontal"
         android:background="@drawable/fondo"
-        android:orientation="horizontal"></LinearLayout>
+        >
+
+        <Button
+            android:id="@+id/btnFecha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/fecha_time_diseno"
+            android:onClick="establecerFecha"
+            android:text="Fecha"
+            android:textColor="@color/White" />
+
+        <Button
+            android:id="@+id/btnTiempo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/fecha_time_diseno"
+            android:onClick="establecerHora"
+            android:text="Hora"
+            android:textColor="@color/White" />
+
+        <CheckBox
+            android:id="@+id/chbRecordatorioEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="mostrar"
+            android:text="Recordatorio"
+            android:textColor="@color/White"
+            android:layout_marginTop="3dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <Button
+            android:id="@+id/btnSubirEdit"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/subir_archivos" />
+
+        <Button
+            android:id="@+id/btnVideosEdit"
+            android:layout_width="10dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/icono_videos"
+            android:onClick="tomarVideosEdit" />
+
+        <Button
+            android:id="@+id/btnGrabarVozEdit"
+            android:layout_width="13dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/icono_gr_voz" />
+
+        <Button
+            android:id="@+id/btnCamaraEdit"
+            android:layout_width="12dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/icono_camara"
+            android:onClick="tomarFotosEdit" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="22dp"
+            android:layout_height="59dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/boton_circular"
+            android:text="+"
+            android:textColor="@color/White"
+            android:textSize="26sp" />
+    </LinearLayout>
 
     <ScrollView
-        android:layout_width="361dp"
-        android:layout_height="551dp"
-        android:layout_below="@+id/ly"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="13dp"
-        android:layout_marginLeft="13dp"
-        android:layout_marginTop="-86dp"
-        android:layout_marginBottom="16dp">
+        android:layout_width="match_parent"
+        android:layout_height="366dp"
+        android:padding="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,7 +137,7 @@
                 android:layout_weight="1">
 
                 <LinearLayout
-                    android:id="@+id/contenedorMultimedia"
+                    android:id="@+id/contenedorMultimediaEdit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -64,7 +146,7 @@
             </HorizontalScrollView>
 
             <EditText
-                android:id="@+id/edtMensaje"
+                android:id="@+id/edtMensajeEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -76,5 +158,14 @@
         </LinearLayout>
     </ScrollView>
 
+    <Button
+        android:id="@+id/btnActualizar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/diseno_button"
+        android:onClick="actualizarNota"
+        android:text="Actualizar" />
 
-</RelativeLayout>
+</LinearLayout>

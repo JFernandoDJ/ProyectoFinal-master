@@ -10,14 +10,14 @@ public class Nota {
 
     private int id;
     private String titulo;
-    private List<Nodo> videos;
-    private List<Nodo> imagenes;
-    private List<Nodo> audios;
+    private ArrayList<Nodo> videos;
+    private ArrayList<Nodo> imagenes;
+    private ArrayList<Nodo> audios;
     private Date fecha;
     private boolean recordatorio;
     private String mensaje;
 
-    public Nota(int id, String titulo, List<Nodo> videos, List<Nodo> imagenes, List<Nodo> audios, Date fecha, boolean recordatorio, String mensaje) {
+    public Nota(int id, String titulo, ArrayList<Nodo> videos, ArrayList<Nodo> imagenes, ArrayList<Nodo> audios, Date fecha, boolean recordatorio, String mensaje) {
         this.id = id;
         this.titulo = titulo;
         this.videos = videos;
@@ -40,11 +40,11 @@ public class Nota {
         this.titulo = titulo;
     }
 
-    public List<Nodo> getVideos() {
+    public ArrayList<Nodo> getVideos() {
         return videos;
     }
 
-    public void setVideos(List<Nodo> videos) {
+    public void setVideos(ArrayList<Nodo> videos) {
         this.videos = videos;
     }
 
@@ -56,11 +56,11 @@ public class Nota {
         return enlaces;
     }
 
-    public List<Nodo> getImagenes() {
+    public ArrayList<Nodo> getImagenes() {
         return imagenes;
     }
 
-    public void setImagenes(List<Nodo> imagenes) {
+    public void setImagenes(ArrayList<Nodo> imagenes) {
         this.imagenes = imagenes;
     }
 
@@ -76,7 +76,7 @@ public class Nota {
         return audios;
     }
 
-    public void setAudios(List<Nodo> audios) {
+    public void setAudios(ArrayList<Nodo> audios) {
         this.audios = audios;
     }
 

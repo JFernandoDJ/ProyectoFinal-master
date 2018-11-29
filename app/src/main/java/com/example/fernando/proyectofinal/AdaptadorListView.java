@@ -75,8 +75,12 @@ public class AdaptadorListView extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(),VerNota.class);
+                intent.putExtra("data", listaDatos.get(j).getId() + "");
                 context.startActivity(intent);
-                Toast.makeText(view.getContext(), (listaDatos.get(j).getTitulo()), Toast.LENGTH_SHORT).show();
+                /*DAOnota dn = new DAOnota(view.getContext());
+
+                Toast.makeText(view.getContext(), dn.getOneNote((listaDatos.get(j).getId())).getTitulo() + " ####", Toast.LENGTH_SHORT).show();
+            */
             }
         });
         imgBtnEliminar.setOnClickListener(new View.OnClickListener() {
@@ -87,15 +91,14 @@ public class AdaptadorListView extends BaseAdapter {
                 List<Nota> list = dnota.getAll();
                 AdaptadorListView miAdapter = new AdaptadorListView(view.getContext(), list);
                 Class_list_note.lv.setAdapter(miAdapter);
-                Toast.makeText(view.getContext(), "Eliminar", Toast.LENGTH_SHORT).show();
             }
         });
         imgBtnEditar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(),EditarNota.class);
+                intent.putExtra("data", listaDatos.get(j).getId() + "");
                 context.startActivity(intent);
-                Toast.makeText(view.getContext(), "Editar", Toast.LENGTH_SHORT).show();
             }
         });
 

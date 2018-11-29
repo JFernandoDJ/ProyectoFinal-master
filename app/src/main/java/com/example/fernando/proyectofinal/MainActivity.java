@@ -1,7 +1,12 @@
 package com.example.fernando.proyectofinal;
 
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout mDot;
     private Adaptador adp;
     private TextView indicador[];
+    AlarmManager am;
+    private String CHANNEL_ID="CANALID";
 
 
     @Override
@@ -32,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
         mSlider.setAdapter(adp);
         addIndicator(0);
         mSlider.addOnPageChangeListener(pageChangeListener);
+
+        createNotificationChannel();
 
     }
 
@@ -72,11 +81,39 @@ public class MainActivity extends AppCompatActivity {
     };
 
     public void click(View view){
-        Intent intent = new Intent(this, Class_list_note.class);
-        startActivity(intent);
+        am = (AlarmManager)   getSystemService(ALARM_SERVICE);
+        Intent intent = new Intent(getApplicationContext(),  PlanaficarAlarma.class);
+        PendingIntent pi =
+                PendingIntent.getBroadcast(getApplicationContext(),
+                        0, intent, 0);
+        am.setRepeating(
+                AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                10000,
+                2*1000, pi);
+        Toast.makeText(this, "kkkkkkkkk", Toast.LENGTH_SHORT).show();
+
+
+        Intent intent2 = new Intent(this, Class_list_note.class);
+        startActivity(intent2);
         //this.onBackPressed();
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         //Toast.makeText(view.getContext(),"MAL",Toast.LENGTH_LONG).show();
+    }
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.channel_name);
+            String description = getString(R.string.channel_description);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
 }

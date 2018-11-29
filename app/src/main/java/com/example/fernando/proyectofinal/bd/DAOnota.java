@@ -23,6 +23,7 @@ public class DAOnota {
 
     public long add(Nota u)
     {
+        Log.i("&&&&&&&&&&",u.getImagenesCadena() + " #####");
         ContentValues cv = new ContentValues();
         cv.put(MiAdaptadorUsuariosConexion.COLUMNS_USUARIOS[1], u.getTitulo() );
         cv.put(MiAdaptadorUsuariosConexion.COLUMNS_USUARIOS[2], u.getMensaje() );
@@ -52,39 +53,40 @@ public class DAOnota {
         return lst;
     }
 
-    public ArrayList getExtraerVideos(String s){
+    public ArrayList<Nodo> getExtraerVideos(String s){
         ArrayList listA = new ArrayList();
         if (s != null) {
             String[] list = s.split("♥");
             for (String sE : list) {
                 if (!sE.equals("")) {
-                    listA.add(sE);
+                    listA.add(new Nodo(sE.split("[/]")[6],sE));
                 }
             }
         }
         return listA;
     }
 
-    public ArrayList getExtraerImagenes(String s){
+    public ArrayList<Nodo> getExtraerImagenes(String s){
         ArrayList listA = new ArrayList();
+        Log.i("############", s + " --------------------------------");
         if(s != null) {
             String[] list = s.split("♥");
             for (String sE : list) {
                 if (!sE.equals("")) {
-                    listA.add(sE);
+                    listA.add(new Nodo(sE.split("[/]")[6],sE));
                 }
             }
         }
         return listA;
     }
 
-    public ArrayList getExtraerAudios(String s){
+    public ArrayList<Nodo> getExtraerAudios(String s){
         ArrayList listA = new ArrayList();
         if(s != null){
             String [] list = s.split("♥");
             for (String sE: list){
                 if (!sE.equals("")) {
-                    listA.add(sE);
+                    listA.add(new Nodo("",sE));
                 }
             }
         }
@@ -94,7 +96,7 @@ public class DAOnota {
     public List<Nota> getAll(String nombre){
         List <Nota> lst = new ArrayList<Nota>();
 
-        Cursor c = _ad.rawQuery("SELECT * FROM notas Where titulo like \"%" + nombre + "%\"", null);
+        Cursor c = _ad.rawQuery("SELECT * FROM notas Where titulo like \"%" + nombre + "%\" or mensaje like \"%" + nombre + "%\"", null);
 
         while(c.moveToNext()){
 
@@ -125,12 +127,22 @@ public class DAOnota {
         cv.put(MiAdaptadorUsuariosConexion.COLUMNS_USUARIOS[6], u.getFecha() + "");
         cv.put(MiAdaptadorUsuariosConexion.COLUMNS_USUARIOS[7], u.isRecordatorio());
 
-        _ad.update(MiAdaptadorUsuariosConexion.TABLES_DB[0],
+        return _ad.update(MiAdaptadorUsuariosConexion.TABLES_DB[0],
                 cv,
                 "_id=?",
                 new String[]{String.valueOf( u.getId())}
         );
-        return 0;
+    }
+
+    public Nota getOneNote(int id){
+        Nota note = null;
+        Cursor c = _ad.rawQuery("SELECT * FROM notas Where  _id = "+ id, null);
+        while(c.moveToNext()){
+           note = new Nota(c.getInt(0), c.getString(1),getExtraerVideos(c.getString(4)),
+                            getExtraerImagenes(c.getString(5)),getExtraerAudios(c.getString(6)),
+                            new Date(), false,c.getString(2));
+        }
+        return note;
     }
 
 }
